@@ -1,0 +1,12 @@
+<div class="controls">
+  <label>
+    Time (ms):
+    <input
+      type="number"
+      [ngModel]="N"
+      (ngModelChange)="onNChange($event)"
+      [disabled]="!gameOver"
+    />
+  </label>
+  <button (click)="onStart()" [disabled]="!gameOver">Start</button>
+</div>

@@ -1,0 +1,22 @@
+<app-controls
+  [N]="N"
+  [gameOver]="gameOver"
+  (NChange)="onNChange($event)"
+  (startGame)="onStartGame()"
+></app-controls>
+
+<app-scoreboard
+  [playerScore]="playerScore"
+  [computerScore]="computerScore"
+></app-scoreboard>
+
+<app-grid
+  [grid]="grid"
+  (cellClicked)="onCellClicked($event)"
+></app-grid>
+
+<app-modal
+  *ngIf="gameOver && message"
+  [message]="message"
+  (playAgain)="onPlayAgain()"
+></app-modal>

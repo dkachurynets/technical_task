@@ -1,0 +1,8 @@
+<div class="grid">
+  <app-cell
+    *ngFor="let color of grid; let i = index"
+    [color]="color"
+    [index]="i"
+    (cellClick)="onCellClick($event)"
+  ></app-cell>
+</div>
