@@ -22,7 +22,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class GameComponent implements OnInit, OnDestroy {
   gridSize = 10;
   grid: string[] = [];
-  N: number = 1000; // Time in milliseconds
+  N: number = 1000;
   playerScore: number = 0;
   computerScore: number = 0;
   selectedCellIndex: number | null = null;
@@ -30,24 +30,39 @@ export class GameComponent implements OnInit, OnDestroy {
   gameOver: boolean = true;
   message: string = '';
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initializeGrid();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.timerSubscription?.unsubscribe();
   }
 
-  initializeGrid() {
-    this.grid = Array.from({ length: this.gridSize * this.gridSize }, () => 'blue');
+  onNChange(value: number): void {
+    this.N = value;
   }
 
-  onStartGame() {
+  onPlayAgain() {
+    this.onStartGame();
+  }
+
+  onCellClicked(index: number): void {
+    if (this.gameOver || this.grid[index] !== 'yellow') return;
+
+    this.grid[index] = 'green';
+    this.playerScore++;
+    this.checkGameOver();
+    this.timerSubscription?.unsubscribe();
+    this.selectedCellIndex = null;
+    this.nextTurn();
+  }
+
+  onStartGame(): void {
     this.resetGame();
     this.nextTurn();
   }
 
-  resetGame() {
+  private resetGame(): void {
     this.initializeGrid();
     this.playerScore = 0;
     this.computerScore = 0;
@@ -55,7 +70,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.message = '';
   }
 
-  nextTurn() {
+  private nextTurn(): void {
     if (this.gameOver) return;
 
     const availableCells = this.grid
@@ -72,25 +87,16 @@ export class GameComponent implements OnInit, OnDestroy {
     this.selectedCellIndex = cellIndex;
     this.grid[cellIndex] = 'yellow';
 
-    // Start timer
     this.timerSubscription = timer(this.N).subscribe(() => {
       this.handleTimeout();
     });
   }
 
-  onCellClicked(index: number) {
-    if (this.gameOver || this.grid[index] !== 'yellow') return;
-
-    // Player clicked on the highlighted cell
-    this.grid[index] = 'green';
-    this.playerScore++;
-    this.checkGameOver();
-    this.timerSubscription?.unsubscribe();
-    this.selectedCellIndex = null;
-    this.nextTurn();
+  private initializeGrid(): void {
+    this.grid = Array.from({ length: this.gridSize * this.gridSize }, () => 'blue');
   }
 
-  handleTimeout() {
+  private handleTimeout(): void {
     if (this.selectedCellIndex !== null) {
       this.grid[this.selectedCellIndex] = 'red';
       this.computerScore++;
@@ -100,7 +106,7 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkGameOver() {
+  private checkGameOver(): void {
     if (this.playerScore >= 10) {
       this.gameOver = true;
       this.message = 'You win!';
@@ -110,16 +116,8 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  endGame() {
+  private endGame(): void {
     this.gameOver = true;
     this.message = 'Game Over';
-  }
-
-  onNChange(value: number) {
-    this.N = value;
-  }
-
-  onPlayAgain() {
-    this.onStartGame();
   }
 }

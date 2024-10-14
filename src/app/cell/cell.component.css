@@ -1,6 +1,27 @@
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: 1px solid #999;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.cell:hover {
+  transform: scale(1.05);
+}
+
+.cell.blue {
+  background-color: #007bff;
+}
+
+.cell.yellow {
+  background-color: #ffc107;
+}
+
+.cell.green {
+  background-color: #28a745;
+}
+
+.cell.red {
+  background-color: #dc3545;
 }

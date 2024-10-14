@@ -14,11 +14,11 @@ export class ControlsComponent {
   @Output() NChange = new EventEmitter<number>();
   @Output() startGame = new EventEmitter<void>();
 
-  onStart() {
+  onStart(): void {
     this.startGame.emit();
   }
 
-  onNChange(value: number) {
+  onNChange(value: number): void {
     this.NChange.emit(value);
   }
 }

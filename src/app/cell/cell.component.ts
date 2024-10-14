@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-cell',
@@ -11,7 +11,12 @@ export class CellComponent {
   @Input() index: number = 0;
   @Output() cellClick = new EventEmitter<number>();
 
-  onClick() {
+  @HostBinding('class')
+  get cellClass() {
+    return `cell ${this.color}`;
+  }
+
+  onClick(): void {
     this.cellClick.emit(this.index);
   }
 }
