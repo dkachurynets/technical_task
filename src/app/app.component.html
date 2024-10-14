@@ -1,0 +1,29 @@
+<div class="controls">
+  <label>
+    Time (ms):
+    <input type="number" [(ngModel)]="N" [disabled]="!gameOver" />
+  </label>
+  <button (click)="startGame()" [disabled]="!gameOver">Start</button>
+</div>
+
+<div class="score-board">
+  <p>Player Score: {{ playerScore }}</p>
+  <p>Computer Score: {{ computerScore }}</p>
+</div>
+
+<div class="grid">
+  <div
+    class="cell"
+    *ngFor="let cell of grid; let i = index"
+    [style.backgroundColor]="cell.color"
+    (click)="handleCellClick(i)"
+  ></div>
+</div>
+
+<!-- Modal Window -->
+<div class="modal" *ngIf="gameOver && message">
+  <div class="modal-content">
+    <p>{{ message }}</p>
+    <button (click)="startGame()">Play Again</button>
+  </div>
+</div>
